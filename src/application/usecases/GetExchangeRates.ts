@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { HttpStatusCode } from "axios";
 import Logger from "../logger/Logger";
 import MissingParametersError from "../errors/MissingParametersError";
 
@@ -20,7 +20,10 @@ class GetExchangeRates {
                 throw new MissingParametersError("Missing parameter 'from'");
             }
             const { data } = await axios.get(`${this.baseURL}/latest/${from}`);
-            return data;
+            return {
+                statusCode: HttpStatusCode.Ok,
+                data
+            };
         } catch (error) {
             this.logger.error(`Error fetching exchange rates: ${error}`);
             return null;

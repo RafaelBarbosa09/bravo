@@ -1,14 +1,19 @@
+import { HttpStatusCode } from "axios";
 import CurrencyRepository from "../repositories/CurrencyRepository";
 
 class GetCurrencies {
     constructor(private exchangeRateRepository: CurrencyRepository) { }
 
-    async execute(): Promise<Output[]> {
-        return this.exchangeRateRepository.getAll();
+    async execute(): Promise<Output> {
+        const currencies = await this.exchangeRateRepository.getAll();
+        return {
+            statusCode: HttpStatusCode.Ok,
+            data: currencies
+        }
     }
 };
 
-type Output = {
+type Currency = {
     id: string;
     code: string;
     type: string;
@@ -16,5 +21,10 @@ type Output = {
     createdAt: Date;
     updatedAt: Date;
 };
+
+type Output = {
+    statusCode: number;
+    data: Currency[];
+}
 
 export default GetCurrencies;
