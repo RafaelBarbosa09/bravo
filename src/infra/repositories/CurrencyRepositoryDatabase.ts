@@ -1,5 +1,6 @@
-import Currency from "./Currency";
-import CurrencyRepository from "./CurrencyRepository";
+import Currency from "../../domain/Currency";
+import CurrencyRepository from "../../application/repositories/CurrencyRepository";
+
 
 class CurrencyRepositoryDatabase implements CurrencyRepository {
     constructor(readonly connection: any) { }

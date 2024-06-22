@@ -1,4 +1,4 @@
-import Logger from "./Logger";
+import Logger from "../../application/logger/Logger";
 
 class LoggerConsole implements Logger {
     error(message: string): void {

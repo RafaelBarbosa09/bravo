@@ -1,4 +1,4 @@
-import CurrencyRepository from "./CurrencyRepository";
+import CurrencyRepository from "../repositories/CurrencyRepository";
 
 class GetCurrencies {
     constructor(private exchangeRateRepository: CurrencyRepository) { }
@@ -9,7 +9,7 @@ class GetCurrencies {
 };
 
 type Output = {
-    id: number;
+    id: string;
     code: string;
     type: string;
     amount: number;

@@ -1,6 +1,6 @@
 import axios from "axios";
-import MissingParametersError from "./MissingParametersError";
-import Logger from "./Logger";
+import Logger from "../logger/Logger";
+import MissingParametersError from "../errors/MissingParametersError";
 
 class ConvertExchange {
     baseURL: string;

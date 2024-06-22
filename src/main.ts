@@ -1,12 +1,12 @@
-import { config } from 'dotenv';
 import express from 'express';
+import { config } from 'dotenv';
 import { HttpStatusCode } from 'axios';
-import PostgresAdapter from './PostgresAdapter';
-import CurrencyRepositoryDatabase from './CurrencyRepositoryDatabase';
-import GetCurrencies from './GetCurrencies';
-import GetExchangeRates from './GetExchangeRates';
-import ConvertExchange from './ConvertExchange';
-import LoggerConsole from './LoggerConsole';
+import ConvertExchange from './application/usecases/ConvertExchange';
+import CurrencyRepositoryDatabase from './infra/repositories/CurrencyRepositoryDatabase';
+import GetCurrencies from './application/usecases/GetCurrencies';
+import GetExchangeRates from './application/usecases/GetExchangeRates';
+import LoggerConsole from './infra/logger/LoggerConsole';
+import PostgresAdapter from './infra/database/PostgresAdapter';
 
 config({ path: `./.env.${process.env.NODE_ENV}` });
 const app = express();
