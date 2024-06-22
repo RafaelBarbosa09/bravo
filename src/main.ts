@@ -6,6 +6,7 @@ import CurrencyRepositoryDatabase from './CurrencyRepositoryDatabase';
 import GetCurrencies from './GetCurrencies';
 import GetExchangeRates from './GetExchangeRates';
 import ConvertExchange from './ConvertExchange';
+import LoggerConsole from './LoggerConsole';
 
 config({ path: `./.env.${process.env.NODE_ENV}` });
 const app = express();
@@ -15,9 +16,10 @@ app.use(express.json());
 
 const databaseConnection = new PostgresAdapter();
 const currencyRepository = new CurrencyRepositoryDatabase(databaseConnection);
+const logger = new LoggerConsole();
 const getCurrencies = new GetCurrencies(currencyRepository);
-const getExchangeRates = new GetExchangeRates();
-const convertExchange = new ConvertExchange();
+const getExchangeRates = new GetExchangeRates(logger);
+const convertExchange = new ConvertExchange(logger);
 
 app.get('/healthcheck', (req, res) => {
     res.json({ status: 'ok' });
@@ -28,7 +30,6 @@ app.get('/readiness', (req, res) => {
 });
 
 app.get('/currencies', async (req, res) => {
-    console.log('GET /currencies');
     const currencies = await getCurrencies.execute();
     res.status(HttpStatusCode.Ok).json(currencies);
 });

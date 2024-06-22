@@ -1,11 +1,14 @@
 import axios from "axios";
 import MissingParametersError from "./MissingParametersError";
+import Logger from "./Logger";
 
 class ConvertExchange {
     baseURL: string;
+    logger: Logger;
 
-    constructor() {
+    constructor(logger: Logger) {
         this.baseURL = `${process.env.EXCHANGE_RATE_API_URL}/${process.env.EXCHANGE_RATE_API_KEY}`;
+        this.logger = logger;
     }
 
     async execute(from: string, to: string, amount: string): Promise<any> {
@@ -14,7 +17,7 @@ class ConvertExchange {
             const { data } = await axios.get(`${this.baseURL}/pair/${from}/${to}/${amount}`);
             return data;
         } catch (error) {
-            console.error('Error fetching exchange rate: ', error);
+            this.logger.error(`Error fetching exchange rate: ${error}`);
             return null;
         }
     }
