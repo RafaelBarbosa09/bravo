@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: bravo-api-dev
+    env_file:
+      - .env.development
+    volumes:
+      - .:/app
+    ports:
+      - 1111:1111
+    network_mode: "host"
+    depends_on:
+      - db
+
+  db:
+    container_name: bravo-db
+    image: postgres:11
+    env_file:
+      - .env.development
+    ports:
+      - 2222:2222
+    network_mode: "host"

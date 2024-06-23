@@ -5,7 +5,7 @@ class PostgresAdapter implements DatabaseConnection {
     connection: any;
 
     constructor() {
-        this.connection = pgPromise()(`postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`);
+        this.connection = pgPromise()(`postgres://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@${process.env.POSTGRES_HOST}:${process.env.POSTGRES_PORT}/${process.env.POSTGRES_DB}`);
     }
 
     query(statement: string, params: any): Promise<any> {
