@@ -1,3 +1,5 @@
+import crypto from "crypto";
+
 class Currency {
     code: string;
     type: string;

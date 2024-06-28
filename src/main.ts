@@ -10,6 +10,7 @@ import ExpressAdapter from './infra/http/ExpressAdapter';
 import LoggerConsole from './infra/logger/LoggerConsole';
 import MainController from './infra/controllers/MainController';
 import PostgresAdapter from './infra/database/PostgresAdapter';
+import CreateCurrency from './application/usecases/CreateCurrency';
 
 config({ path: `./.env.${process.env.NODE_ENV}` });
 const port = Number(process.env.PORT);
@@ -20,15 +21,13 @@ const databaseConnection = new PostgresAdapter();
 const currencyRepository = new CurrencyRepositoryDatabase(databaseConnection);
 const logger = new LoggerConsole();
 
+const createCurrency = new CreateCurrency(currencyRepository);
 const getCurrencies = new GetCurrencies(currencyRepository);
 const getExchangeRates = new GetExchangeRates(logger);
 const convertExchange = new ConvertExchange(logger);
 
 new MainController(httpServer);
-new CurrencyController(httpServer, getCurrencies);
+new CurrencyController(httpServer, getCurrencies, createCurrency);
 new ExchangeController(httpServer, convertExchange, getExchangeRates);
-
-const cronjob = new Cronjob(logger);
-cronjob.start();
 
 httpServer.listen(port);

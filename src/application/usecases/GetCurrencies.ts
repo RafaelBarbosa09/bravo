@@ -1,5 +1,6 @@
 import { HttpStatusCode } from "axios";
 import CurrencyRepository from "../repositories/CurrencyRepository";
+import { CurrencyType } from "../../utils/@types/Currency";
 
 class GetCurrencies {
     constructor(private exchangeRateRepository: CurrencyRepository) { }
@@ -13,18 +14,9 @@ class GetCurrencies {
     }
 };
 
-type Currency = {
-    id: string;
-    code: string;
-    type: string;
-    amount: number;
-    createdAt: Date;
-    updatedAt: Date;
-};
-
 type Output = {
     statusCode: number;
-    data: Currency[];
+    data: CurrencyType[];
 }
 
 export default GetCurrencies;

@@ -13,6 +13,12 @@ class CurrencyRepositoryDatabase implements CurrencyRepository {
 
         return test;
     };
+
+    async create(currency: Currency): Promise<void> {
+        await this.connection.query('INSERT INTO currency (id, code, type, amount) VALUES ($1, $2, $3, $4)',
+            [currency.id, currency.code, currency.type, currency.amount]
+        );
+    };
 };
 
 export default CurrencyRepositoryDatabase;
