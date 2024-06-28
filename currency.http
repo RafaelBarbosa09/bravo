@@ -1,0 +1,12 @@
+### GET Currencies
+GET {{baseUrl}}/currencies
+
+### POST Currency
+POST {{baseUrl}}/currencies
+Content-Type: application/json
+
+{
+  "code": "test123",
+  "type": "fiat",
+  "amount": 456
+}
