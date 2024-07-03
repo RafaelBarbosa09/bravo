@@ -1,8 +1,7 @@
-import axios, { HttpStatusCode } from "axios";
+import { HttpStatusCode } from "axios";
 import Logger from "../logger/Logger";
 import MissingParametersError from "../errors/MissingParametersError";
 import CurrencyRepository from "../repositories/CurrencyRepository";
-import currencyRepository from "../repositories/CurrencyRepository";
 
 class ConvertExchange {
     logger: Logger;
