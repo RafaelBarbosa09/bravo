@@ -22,9 +22,9 @@ const currencyRepository = new CurrencyRepositoryDatabase(databaseConnection);
 const logger = new LoggerConsole();
 
 const createCurrency = new CreateCurrency(currencyRepository);
+const convertExchange = new ConvertExchange(logger, currencyRepository);
 const getCurrencies = new GetCurrencies(currencyRepository);
 const getExchangeRates = new GetExchangeRates(logger);
-const convertExchange = new ConvertExchange(logger);
 
 new MainController(httpServer);
 new CurrencyController(httpServer, getCurrencies, createCurrency);

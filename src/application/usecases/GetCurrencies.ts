@@ -12,7 +12,7 @@ class GetCurrencies {
             data: currencies
         }
     }
-};
+}
 
 type Output = {
     statusCode: number;

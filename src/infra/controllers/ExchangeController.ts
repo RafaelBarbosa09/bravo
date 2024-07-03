@@ -13,6 +13,11 @@ class ExchangeController {
             const { from } = query;
             return await getExchangeRates.execute(from as string);
         });
+
+        httpServer.register('post', '/convert', async (body: any, query: any, params: any) => {
+            const { from, to, amount } = body;
+            return await convertExchange.execute(from as string, to as string, amount as string);
+        });
     }
 }
 

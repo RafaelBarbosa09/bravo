@@ -19,6 +19,15 @@ class CurrencyRepositoryDatabase implements CurrencyRepository {
             [currency.id, currency.code, currency.type, currency.amount]
         );
     };
-};
+
+    async getByCode(code: string): Promise<Currency | null> {
+        const [currency] = await this.connection.query('SELECT * FROM currency WHERE code = $1', [code]);
+        if (!currency) {
+            return null;
+        }
+
+        return Currency.restore(currency.id, currency.code, currency.type, currency.amount, currency.created_at, currency.updated_at);
+    };
+}
 
 export default CurrencyRepositoryDatabase;

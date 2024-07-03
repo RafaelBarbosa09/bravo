@@ -10,3 +10,13 @@ Content-Type: application/json
   "type": "fiat",
   "amount": 456
 }
+
+### POST Conversion
+POST {{baseUrl}}/convert
+Content-Type: application/json
+
+{
+  "from": "USD",
+  "to": "EUR",
+  "amount": 1
+}
