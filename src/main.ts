@@ -11,19 +11,21 @@ import LoggerConsole from './infra/logger/LoggerConsole';
 import MainController from './infra/controllers/MainController';
 import PostgresAdapter from './infra/database/PostgresAdapter';
 import CreateCurrency from './application/usecases/CreateCurrency';
+import RedisAdapter from './infra/cache/RedisAdapter';
 
 config({ path: `./.env.${process.env.NODE_ENV}` });
 const port = Number(process.env.PORT);
 
 const httpServer = new ExpressAdapter();
 const databaseConnection = new PostgresAdapter();
+const cache = new RedisAdapter();
 
 const currencyRepository = new CurrencyRepositoryDatabase(databaseConnection);
 const logger = new LoggerConsole();
 
-const createCurrency = new CreateCurrency(currencyRepository);
+const createCurrency = new CreateCurrency(cache, currencyRepository);
 const convertExchange = new ConvertExchange(logger, currencyRepository);
-const getCurrencies = new GetCurrencies(currencyRepository);
+const getCurrencies = new GetCurrencies(cache, currencyRepository);
 const getExchangeRates = new GetExchangeRates(logger);
 
 new MainController(httpServer);

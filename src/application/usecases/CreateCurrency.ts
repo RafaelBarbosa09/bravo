@@ -2,20 +2,33 @@ import { HttpStatusCode } from "axios";
 import Currency from "../../domain/Currency";
 import { CurrencyType } from "../../utils/@types/Currency";
 import CurrencyRepository from "../repositories/CurrencyRepository";
+import Cache from "../../infra/cache/Cache";
 
 class CreateCurrency {
-    constructor(private currencyRepository: CurrencyRepository) { }
+    constructor(private cache: Cache, private currencyRepository: CurrencyRepository) { }
 
     async execute(input: Input): Promise<Output> {
-        const { code, type, amount } = input;
-        const currency = Currency.create(code, type, amount);
+        try {
+            const { code, type, amount } = input;
+            const currency = Currency.create(code, type, amount);
 
-        await this.currencyRepository.create(currency);
+            await this.currencyRepository.create(currency);
 
-        return {
-            statusCode: HttpStatusCode.Created,
-            data: currency
-        };
+            await this.cache.invalidate('currencies');
+
+            return {
+                statusCode: HttpStatusCode.Created,
+                data: currency
+            };
+        } catch (error) {
+            return {
+                statusCode: HttpStatusCode.InternalServerError,
+                data: {
+                    error: `Error creating currency: ${error}`
+                }
+            };
+        }
+
     }
 }
 
@@ -25,9 +38,13 @@ type Input = {
     amount: number;
 };
 
+type OutputError = {
+    error: string;
+};
+
 type Output = {
     statusCode: number;
-    data: CurrencyType;
+    data: CurrencyType | OutputError;
 }
 
 
