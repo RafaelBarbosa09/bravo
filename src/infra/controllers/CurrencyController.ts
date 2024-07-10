@@ -7,6 +7,11 @@ class CurrencyController {
         httpServer.register('get', '/currencies', async () => {
             return await getCurrencies.execute();
         });
+
+        httpServer.register('get', '/rates', async () => {
+            return await getCurrencies.rates();
+        });
+
         httpServer.register('post', '/currencies', async (body: any) => {
             return await createCurrency.execute(body);
         });

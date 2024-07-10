@@ -28,6 +28,23 @@ class CurrencyRepositoryDatabase implements CurrencyRepository {
 
         return Currency.restore(currency.id, currency.code, currency.type, currency.amount, currency.created_at, currency.updated_at);
     };
+
+    async update(currency: Currency): Promise<void> {
+        await this.connection.query('UPDATE currency SET amount = $1, updated_at = $2 WHERE id = $3',
+            [currency.amount, currency.updatedAt, currency.id]
+        );
+    }
+
+    async deleteAll(): Promise<void> {
+        await this.connection.query('DELETE FROM currency');
+    }
+
+    async saveAll(currencies: Currency[]): Promise<void> {
+        await this.deleteAll();
+        for (const currency of currencies) {
+            await this.create(currency);
+        }
+    }
 }
 
 export default CurrencyRepositoryDatabase;

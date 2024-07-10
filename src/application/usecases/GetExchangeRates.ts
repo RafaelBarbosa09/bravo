@@ -14,7 +14,7 @@ class GetExchangeRates {
         this.logger = logger;
     }
 
-    async execute(from: string): Promise<any> {
+    async execute2(from: string): Promise<any> {
         try {
             if (!from) {
                 throw new MissingParametersError("Missing parameter 'from'");

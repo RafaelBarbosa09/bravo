@@ -1,7 +1,7 @@
 import { HttpStatusCode } from "axios";
 import Logger from "../logger/Logger";
-import MissingParametersError from "../errors/MissingParametersError";
 import CurrencyRepository from "../repositories/CurrencyRepository";
+import Currency from "../../domain/Currency";
 
 class ConvertExchange {
     logger: Logger;
@@ -14,20 +14,23 @@ class ConvertExchange {
 
     async execute(from: string, to: string, amount: string): Promise<Output> {
         try {
-            if (!from || !to || !amount) throw new MissingParametersError("Missing parameters 'from', 'to' or 'amount'");
+            Currency.validateConversionEntry(from, to, amount);
 
             const fromCurrency = await this.currencyRepository.getByCode(from);
             const toCurrency = await this.currencyRepository.getByCode(to);
 
-            const maxAmount = Math.max(fromCurrency!!.amount, toCurrency!!.amount);
-            const minAmount = Math.min(fromCurrency!!.amount, toCurrency!!.amount);
-            const conversionRate = maxAmount / minAmount;
+            if(!fromCurrency || !toCurrency) {
+                throw new Error('Currency not found');
+            }
+
+            const conversionRate = fromCurrency.conversionRate(toCurrency);
+            const conversionResult = fromCurrency.convertTo(toCurrency, Number(amount));
 
             return {
                 statusCode: HttpStatusCode.Ok,
                 data: {
-                    conversionRate: conversionRate,
-                    conversionResult: conversionRate * Number(amount)
+                    conversionRate,
+                    conversionResult
                 }
             };
         } catch (error) {

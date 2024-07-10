@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import MissingParametersError from "../application/errors/MissingParametersError";
 
 class Currency {
     code: string;
@@ -29,6 +30,15 @@ class Currency {
         return new Currency(id, code, type, amount, createdAt, updatedAt);
     }
 
+    static update(currency: Currency) {
+        const updatedAt = new Date();
+        return this.restore(currency.id, currency.code, currency.type, currency.amount, currency.createdAt, updatedAt)
+    }
+
+    static validateConversionEntry(from: string, to: string, amount: string) {
+        if (!from || !to || !amount) throw new MissingParametersError("Missing parameters 'from', 'to' or 'amount'");
+    }
+
     validateCode(code: string) {
         return !code;
     }
@@ -41,6 +51,14 @@ class Currency {
     validateAmount(amount: number) {
         return amount <= 0;
     }
-};
+
+    conversionRate(toCurrency: Currency): number {
+        return this.amount / toCurrency.amount;
+    }
+
+    convertTo(toCurrency: Currency, amount: number): number {
+        return (amount * this.amount) / toCurrency.amount
+    }
+}
 
 export default Currency;

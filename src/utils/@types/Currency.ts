@@ -6,3 +6,10 @@ export type CurrencyType = {
     createdAt: Date;
     updatedAt: Date;
 };
+
+
+export const Type  = {
+    FIAT: 'fiat',
+    CRYPTO: 'crypto',
+    FICTITIOUS: 'fictitious'
+}
