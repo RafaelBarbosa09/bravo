@@ -1,12 +1,11 @@
-import crypto from "crypto";
 import MissingParametersError from "../application/errors/MissingParametersError";
 
-class Currency {
+abstract class Currency {
     code: string;
     type: string;
     amount: number;
 
-    constructor(readonly id: string, code: string, type: string, amount: number, readonly createdAt: Date, readonly updatedAt: Date) {
+    protected constructor(readonly id: string, code: string, type: string, amount: number, readonly createdAt: Date, readonly updatedAt: Date) {
         if (this.validateCode(code)) throw new Error(`Invalid currency code.`);
         if (this.validateType(type)) throw new Error(`Invalid currency type.`);
         if (this.validateAmount(amount)) throw new Error(`Amount must be a positive number.`);
@@ -17,22 +16,6 @@ class Currency {
         this.amount = amount;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-    }
-
-    static create(code: string, type: string, amount: number) {
-        const id = crypto.randomUUID();
-        const createdAt = new Date();
-        const updatedAt = new Date();
-        return new Currency(id, code, type, amount, createdAt, updatedAt);
-    }
-
-    static restore(id: string, code: string, type: string, amount: number, createdAt: Date, updatedAt: Date) {
-        return new Currency(id, code, type, amount, createdAt, updatedAt);
-    }
-
-    static update(currency: Currency) {
-        const updatedAt = new Date();
-        return this.restore(currency.id, currency.code, currency.type, currency.amount, currency.createdAt, updatedAt);
     }
 
     static validateConversionEntry(from: string, to: string, amount: string) {

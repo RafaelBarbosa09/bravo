@@ -1,5 +1,6 @@
 import Currency from "../../domain/Currency";
 import CurrencyRepository from "../../application/repositories/CurrencyRepository";
+import CurrencyFactory from "../../domain/factories/CurrencyFactory";
 
 
 class CurrencyRepositoryDatabase implements CurrencyRepository {
@@ -7,11 +8,9 @@ class CurrencyRepositoryDatabase implements CurrencyRepository {
 
     async getAll(): Promise<Currency[]> {
         const currencies = await this.connection.query('SELECT * FROM currency');
-        const test = currencies.map((currency: any) => {
-            return Currency.restore(currency.id, currency.code, currency.type, currency.amount, currency.created_at, currency.updated_at);
+        return currencies.map((currency: any) => {
+            return CurrencyFactory.restore(currency.id, currency.code, currency.type, currency.amount, currency.created_at, currency.updated_at);
         });
-
-        return test;
     };
 
     async create(currency: Currency): Promise<void> {
@@ -26,7 +25,7 @@ class CurrencyRepositoryDatabase implements CurrencyRepository {
             return null;
         }
 
-        return Currency.restore(currency.id, currency.code, currency.type, currency.amount, currency.created_at, currency.updated_at);
+        return CurrencyFactory.restore(currency.id, currency.code, currency.type, currency.amount, currency.created_at, currency.updated_at);
     };
 
     async update(currency: Currency): Promise<void> {
