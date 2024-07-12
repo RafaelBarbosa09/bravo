@@ -1,6 +1,6 @@
 import { HttpStatusCode } from "axios";
 import Currency from "../../domain/Currency";
-import { CurrencyType } from "../../utils/@types/Currency";
+import {CurrencyType, Type} from "../../utils/@types/Currency";
 import CurrencyRepository from "../repositories/CurrencyRepository";
 import Cache from "../../infra/cache/Cache";
 
@@ -9,8 +9,8 @@ class CreateCurrency {
 
     async execute(input: Input): Promise<Output> {
         try {
-            const { code, type, amount } = input;
-            const currency = Currency.create(code, type, amount);
+            const { code, amount } = input;
+            const currency = Currency.create(code, Type.FICTITIOUS, amount);
 
             await this.currencyRepository.create(currency);
 

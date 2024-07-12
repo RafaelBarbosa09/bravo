@@ -29,8 +29,8 @@ class ConvertExchange {
             return {
                 statusCode: HttpStatusCode.Ok,
                 data: {
-                    conversionRate,
-                    conversionResult
+                    conversionRate: parseFloat(conversionRate.toFixed(2)),
+                    conversionResult: parseFloat(conversionResult.toFixed(2))
                 }
             };
         } catch (error) {

@@ -12,6 +12,7 @@ import MainController from './infra/controllers/MainController';
 import PostgresAdapter from './infra/database/PostgresAdapter';
 import CreateCurrency from './application/usecases/CreateCurrency';
 import RedisAdapter from './infra/cache/RedisAdapter';
+import PopulateCurrencies from "./application/usecases/PopulateCurrencies";
 
 config({ path: `./.env.${process.env.NODE_ENV}` });
 const port = Number(process.env.PORT);
@@ -23,13 +24,14 @@ const cache = new RedisAdapter();
 const currencyRepository = new CurrencyRepositoryDatabase(databaseConnection);
 const logger = new LoggerConsole();
 
+const populateCurrencies = new PopulateCurrencies(cache, currencyRepository);
 const createCurrency = new CreateCurrency(cache, currencyRepository);
 const convertExchange = new ConvertExchange(logger, currencyRepository);
 const getCurrencies = new GetCurrencies(cache, currencyRepository);
 const getExchangeRates = new GetExchangeRates(logger);
 
 new MainController(httpServer);
-new CurrencyController(httpServer, getCurrencies, createCurrency);
+new CurrencyController(httpServer, getCurrencies, createCurrency, populateCurrencies);
 new ExchangeController(httpServer, convertExchange, getExchangeRates);
 
 httpServer.listen(port);

@@ -32,7 +32,7 @@ class Currency {
 
     static update(currency: Currency) {
         const updatedAt = new Date();
-        return this.restore(currency.id, currency.code, currency.type, currency.amount, currency.createdAt, updatedAt)
+        return this.restore(currency.id, currency.code, currency.type, currency.amount, currency.createdAt, updatedAt);
     }
 
     static validateConversionEntry(from: string, to: string, amount: string) {
@@ -57,7 +57,7 @@ class Currency {
     }
 
     convertTo(toCurrency: Currency, amount: number): number {
-        return (amount * this.amount) / toCurrency.amount
+        return amount * (this.amount / toCurrency.amount);
     }
 }
 
