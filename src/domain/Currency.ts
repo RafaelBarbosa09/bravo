@@ -1,11 +1,11 @@
 import MissingParametersError from "../application/errors/MissingParametersError";
 
-abstract class Currency {
+class Currency {
     code: string;
     type: string;
     amount: number;
 
-    protected constructor(readonly id: string, code: string, type: string, amount: number, readonly createdAt: Date, readonly updatedAt: Date) {
+    constructor(readonly id: string, code: string, type: string, amount: number, readonly createdAt: Date, readonly updatedAt: Date) {
         if (this.validateCode(code)) throw new Error(`Invalid currency code.`);
         if (this.validateType(type)) throw new Error(`Invalid currency type.`);
         if (this.validateAmount(amount)) throw new Error(`Amount must be a positive number.`);
@@ -16,6 +16,10 @@ abstract class Currency {
         this.amount = amount;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    static restore(id: string, code: string, type: string, amount: number, createdAt: Date, updatedAt: Date) {
+        return new Currency(id, code, type, amount, createdAt, updatedAt);
     }
 
     static validateConversionEntry(from: string, to: string, amount: string) {

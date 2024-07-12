@@ -18,16 +18,6 @@ class CurrencyFactory {
 
         return currency.create(code, amount);
     }
-
-    static restore(id: string, code: string, type: string, amount: number, createdAt: Date, updatedAt: Date) {
-        const currency = CurrencyFactory.currencyMap.get(type);
-
-        if (!currency) {
-            throw new Error('Invalid currency type');
-        }
-
-        return currency.restore(id, code, type, amount, createdAt, updatedAt);
-    }
 }
 
 export default CurrencyFactory;
