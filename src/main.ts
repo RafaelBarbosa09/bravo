@@ -13,6 +13,7 @@ import PostgresAdapter from './infra/database/PostgresAdapter';
 import CreateCurrency from './application/usecases/CreateCurrency';
 import RedisAdapter from './infra/cache/RedisAdapter';
 import PopulateCurrencies from "./application/usecases/PopulateCurrencies";
+import UpdateExchangeRates from "./application/usecases/UpdateExchangeRates";
 
 config({ path: `./.env.${process.env.NODE_ENV}` });
 const port = Number(process.env.PORT);
@@ -29,9 +30,13 @@ const createCurrency = new CreateCurrency(cache, currencyRepository);
 const convertExchange = new ConvertExchange(logger, currencyRepository);
 const getCurrencies = new GetCurrencies(cache, currencyRepository);
 const getExchangeRates = new GetExchangeRates(logger);
+const updateExchangeRates = new UpdateExchangeRates(currencyRepository);
 
 new MainController(httpServer);
 new CurrencyController(httpServer, getCurrencies, createCurrency, populateCurrencies);
 new ExchangeController(httpServer, convertExchange, getExchangeRates);
+
+const cronjob = new Cronjob(logger, getExchangeRates, updateExchangeRates);
+cronjob.start();
 
 httpServer.listen(port);

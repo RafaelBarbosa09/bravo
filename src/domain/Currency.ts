@@ -22,6 +22,11 @@ class Currency {
         return new Currency(id, code, type, amount, createdAt, updatedAt);
     }
 
+    static update(id: string, code: string, type: string, amount: number, createdAt: Date) {
+        const updatedAt = new Date();
+        return new Currency(id, code, type, amount, createdAt, updatedAt);
+    }
+
     static validateConversionEntry(from: string, to: string, amount: string) {
         if (!from || !to || !amount) throw new MissingParametersError("Missing parameters 'from', 'to' or 'amount'");
     }
@@ -44,7 +49,7 @@ class Currency {
     }
 
     convertTo(toCurrency: Currency, amount: number): number {
-        return amount * (this.amount / toCurrency.amount);
+        return amount * this.conversionRate(toCurrency);
     }
 }
 
