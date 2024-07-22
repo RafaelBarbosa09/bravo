@@ -4,8 +4,8 @@ import {CurrencyType, Type} from "../../utils/@types/Currency";
 import Cache from "../../infra/cache/Cache";
 
 class GetCurrencies {
-    cache: Cache;
-    currencyRepository: CurrencyRepository;
+    private cache: Cache;
+    private currencyRepository: CurrencyRepository;
 
     constructor(cache: Cache, currencyRepository: CurrencyRepository) {
         this.cache = cache;

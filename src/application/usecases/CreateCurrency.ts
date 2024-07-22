@@ -5,7 +5,13 @@ import Cache from "../../infra/cache/Cache";
 import FictitiousCurrency from "../../domain/FictitiousCurrency";
 
 class CreateCurrency {
-    constructor(private cache: Cache, private currencyRepository: CurrencyRepository) { }
+    cache: Cache;
+    currencyRepository: CurrencyRepository;
+
+    constructor(cache: Cache, currencyRepository: CurrencyRepository) {
+        this.cache = cache;
+        this.currencyRepository = currencyRepository;
+    }
 
     async execute(input: Input): Promise<Output> {
         try {

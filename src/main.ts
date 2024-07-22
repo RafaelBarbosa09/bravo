@@ -27,10 +27,10 @@ const logger = new LoggerConsole();
 
 const populateCurrencies = new PopulateCurrencies(cache, currencyRepository);
 const createCurrency = new CreateCurrency(cache, currencyRepository);
-const convertExchange = new ConvertExchange(logger, currencyRepository);
+const convertExchange = new ConvertExchange(logger, cache, currencyRepository);
 const getCurrencies = new GetCurrencies(cache, currencyRepository);
-const getExchangeRates = new GetExchangeRates(logger);
-const updateExchangeRates = new UpdateExchangeRates(currencyRepository);
+const getExchangeRates = new GetExchangeRates(cache, logger);
+const updateExchangeRates = new UpdateExchangeRates(cache, logger, currencyRepository);
 
 new MainController(httpServer);
 new CurrencyController(httpServer, getCurrencies, createCurrency, populateCurrencies);
