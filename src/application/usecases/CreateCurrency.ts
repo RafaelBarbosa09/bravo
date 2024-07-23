@@ -40,7 +40,6 @@ class CreateCurrency {
 
 type Input = {
     code: string;
-    type: string;
     amount: number;
 };
 

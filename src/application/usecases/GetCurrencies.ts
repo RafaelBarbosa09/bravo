@@ -1,6 +1,6 @@
-import axios, {HttpStatusCode} from "axios";
+import { HttpStatusCode } from "axios";
 import CurrencyRepository from "../repositories/CurrencyRepository";
-import {CurrencyType, Type} from "../../utils/@types/Currency";
+import { CurrencyType } from "../../utils/@types/Currency";
 import Cache from "../../infra/cache/Cache";
 
 class GetCurrencies {
