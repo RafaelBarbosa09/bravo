@@ -27,7 +27,7 @@ class Currency {
         return new Currency(id, code, type, amount, createdAt, updatedAt);
     }
 
-    static validateConversionEntry(from: string, to: string, amount: string) {
+    static validateConversionEntry(from: string, to: string, amount: number) {
         if (!from || !to || !amount) throw new MissingParametersError("Missing parameters 'from', 'to' or 'amount'");
     }
 

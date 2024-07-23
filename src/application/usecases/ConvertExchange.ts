@@ -15,7 +15,7 @@ class ConvertExchange {
         this.currencyRepository = currencyRepository;
     }
 
-    async execute(from: string, to: string, amount: string): Promise<Output> {
+    async execute(from: string, to: string, amount: number): Promise<Output> {
         try {
             Currency.validateConversionEntry(from, to, amount);
 
